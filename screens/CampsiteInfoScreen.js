@@ -1,16 +1,57 @@
-import React from "react";
-import { View, Text } from "react-native";
+import React, { useState } from "react";
+import { FlatList, StyleSheet, Text, View } from "react-native";
+import { COMMENTS } from "../shared/comments";
 
 const CampsiteInfoScreen = ({ route }) => {
   const { campsite } = route.params;
 
+  // Create a state variable for comments with initial value from COMMENTS
+  const [comments, setComments] = useState(COMMENTS);
+
+  // Function to render individual comment items
+  const renderCommentItem = ({ item }) => {
+    return (
+      <View style={styles.commentItem}>
+        <Text style={{ fontSize: 14 }}>{item.text}</Text>
+        <Text style={{ fontSize: 12 }}>{item.rating} Stars</Text>
+        <Text
+          style={{ fontSize: 12 }}
+        >{`-- ${item.author}, ${item.date}`}</Text>
+      </View>
+    );
+  };
+
   return (
-    <View>
-      <Text>{campsite.name}</Text>
-      <Text>{campsite.description}</Text>
-      {/* Add more campsite details here */}
-    </View>
+    <FlatList
+      data={comments.filter((comment) => comment.campsiteId === campsite.id)}
+      renderItem={renderCommentItem}
+      keyExtractor={(item) => item.id.toString()}
+      contentContainerStyle={{ marginHorizontal: 20, paddingVertical: 20 }}
+      ListHeaderComponent={
+        <>
+          {/* RenderCampsite component here */}
+          <Text style={styles.commentsTitle}>Comments</Text>
+        </>
+      }
+    />
   );
 };
+
+const styles = StyleSheet.create({
+  commentsTitle: {
+    textAlign: "center",
+    backgroundColor: "#fff",
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#43484D",
+    padding: 10,
+    paddingTop: 30,
+  },
+  commentItem: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: "#fff",
+  },
+});
 
 export default CampsiteInfoScreen;
