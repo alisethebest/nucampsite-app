@@ -1,16 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import { ScrollView } from "react-native";
-import { Card, Text, ListItem, Avatar, Image } from "react-native-elements"; // Import necessary components
+import { Card, ListItem, Avatar } from "react-native-elements";
+import { useSelector } from "react-redux";
+import { baseUrl } from "../shared/baseUrl";
+import Loading from "../components/LoadingComponent";
 
-// Import the partners data from the shared folder
-import { PARTNERS } from "../shared/partners";
-
-// Separate functional component for the Mission
 const Mission = () => {
   return (
     <Card>
-      <Card.Title>Our Mission</Card.Title> {/* Title for Mission */}
-      <Card.Divider /> {/* Divider after the title */}
+      <Card.Title>Our Mission</Card.Title>
+      <Card.Divider />
       <Text style={{ margin: 10 }}>
         We present a curated database of the best campsites in the vast woods
         and backcountry of the World Wide Web Wilderness. We increase access to
@@ -25,25 +24,46 @@ const Mission = () => {
 };
 
 const AboutScreen = () => {
-  // Initialize state for partners data
-  const [partnersData, setPartnersData] = useState(PARTNERS);
+  const partners = useSelector((state) => state.partners);
+
+  if (partners.isLoading) {
+    return (
+      <ScrollView>
+        <Mission />
+        <Card>
+          <Card.Title>Community Partners</Card.Title>
+          <Card.Divider />
+          <Loading />
+        </Card>
+      </ScrollView>
+    );
+  }
+
+  if (partners.errMess) {
+    return (
+      <ScrollView>
+        <Mission />
+        <Card>
+          <Card.Title>Community Partners</Card.Title>
+          <Card.Divider />
+          <Text>{partners.errMess}</Text>
+        </Card>
+      </ScrollView>
+    );
+  }
 
   return (
     <ScrollView>
-      <Mission /> {/* Render the Mission component */}
+      <Mission />
       <Card>
-        <Card.Title>Community Partners</Card.Title>{" "}
-        {/* Title for Community Partners */}
-        <Card.Divider /> {/* Divider after the title */}
-        {partnersData.map((partner) => (
+        <Card.Title>Community Partners</Card.Title>
+        <Card.Divider />
+        {partners.partnersArray.map((partner) => (
           <ListItem key={partner.id}>
-            <Avatar rounded source={{ uri: partner.image }} />{" "}
-            {/* Avatar with partner's image */}
+            <Avatar rounded source={{ uri: baseUrl + partner.image }} />
             <ListItem.Content>
-              <ListItem.Title>{partner.name}</ListItem.Title>{" "}
-              {/* Partner's name */}
-              <ListItem.Subtitle>{partner.description}</ListItem.Subtitle>{" "}
-              {/* Partner's description */}
+              <ListItem.Title>{partner.name}</ListItem.Title>
+              <ListItem.Subtitle>{partner.description}</ListItem.Subtitle>
             </ListItem.Content>
           </ListItem>
         ))}

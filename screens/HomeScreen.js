@@ -1,20 +1,23 @@
-import React, { useState } from "react";
+import React from "react";
 import { Text, View, ScrollView } from "react-native";
 import { Card } from "react-native-elements";
-import { CAMPSITES } from "../shared/campsites";
-import { PROMOTIONS } from "../shared/promotions";
-import { PARTNERS } from "../shared/partners";
+import { useSelector } from "react-redux"; // Import useSelector
+import { baseUrl } from "../shared/baseUrl"; // Import baseUrl from shared
 
 const HomeScreen = () => {
-  const [campsites, setCampsites] = useState(CAMPSITES);
-  const [promotions, setPromotions] = useState(PROMOTIONS);
-  const [partners, setPartners] = useState(PARTNERS);
+  // Remove the useState and imports for CAMPSITES, PROMOTIONS, and PARTNERS
+
+  // Use useSelector to get the data from Redux store
+  const campsites = useSelector((state) => state.campsites);
+  const promotions = useSelector((state) => state.promotions);
+  const partners = useSelector((state) => state.partners);
 
   const FeaturedItem = ({ item }) => {
     if (item) {
       return (
         <Card containerStyle={{ padding: 0 }}>
-          <Card.Image source={item.image}>
+          {/* Update the source prop of Card.Image */}
+          <Card.Image source={{ uri: baseUrl + item.image }}>
             <View style={{ justifyContent: "center", flex: 1 }}>
               <Text
                 style={{ color: "white", textAlign: "center", fontSize: 20 }}
@@ -30,9 +33,12 @@ const HomeScreen = () => {
     return <View />;
   };
 
-  const featCampsite = campsites.find((item) => item.featured);
-  const featPromotion = promotions.find((item) => item.featured);
-  const featPartner = partners.find((item) => item.featured);
+  // Update featCampsite, featPromotion, and featPartner
+  const featCampsite = campsites.campsitesArray.find((item) => item.featured);
+  const featPromotion = promotions.promotionsArray.find(
+    (item) => item.featured
+  );
+  const featPartner = partners.partnersArray.find((item) => item.featured);
 
   return (
     <ScrollView>
