@@ -12,6 +12,7 @@ import {
 import HomeScreen from "./HomeScreen";
 import AboutScreen from "./AboutScreen";
 import ContactScreen from "./ContactScreen";
+import ReservationScreen from "./ReservationScreen";
 import { Icon } from "react-native-elements";
 import logo from "../assets/images/logo.png";
 import { useDispatch } from "react-redux";
@@ -24,7 +25,6 @@ import { Provider } from "react-redux"; // Import Provider
 import { store } from "../redux/store"; // Import your Redux store
 
 const Drawer = createDrawerNavigator();
-
 const screenOptions = {
   headerTintColor: "#fff",
   headerStyle: { backgroundColor: "#5637DD" },
@@ -98,30 +98,23 @@ const ContactNavigator = () => {
   );
 };
 
-const DirectoryNavigator = () => {
+const ReservationNavigator = () => {
   const Stack = createStackNavigator();
   return (
-    <Stack.Navigator initialRouteName="Directory" screenOptions={screenOptions}>
+    <Stack.Navigator screenOptions={screenOptions}>
       <Stack.Screen
-        name="Directory"
-        component={DirectoryScreen}
+        name="Reservation"
+        component={ReservationScreen}
         options={({ navigation }) => ({
-          title: "Campsite Directory",
+          title: "Reservation Search",
           headerLeft: () => (
             <Icon
-              name="list"
+              name="tree"
               type="font-awesome"
               iconStyle={styles.stackIcon}
               onPress={() => navigation.toggleDrawer()}
             />
           ),
-        })}
-      />
-      <Stack.Screen
-        name="CampsiteInfo"
-        component={CampsiteInfoScreen}
-        options={({ route }) => ({
-          title: route.params.campsite.name,
         })}
       />
     </Stack.Navigator>
@@ -182,22 +175,6 @@ const Main = () => {
             }}
           />
           <Drawer.Screen
-            name="Directory"
-            component={DirectoryNavigator}
-            options={{
-              title: "Campsite Directory",
-              drawerIcon: ({ color }) => (
-                <Icon
-                  name="list"
-                  type="font-awesome"
-                  size={24}
-                  iconStyle={{ width: 24 }}
-                  color={color}
-                />
-              ),
-            }}
-          />
-          <Drawer.Screen
             name="About"
             component={AboutNavigator}
             options={{
@@ -229,6 +206,22 @@ const Main = () => {
               ),
             }}
           />
+          <Drawer.Screen
+            name="Reservation"
+            component={ReservationNavigator}
+            options={{
+              title: "Reservations",
+              drawerIcon: ({ color }) => (
+                <Icon
+                  name="tree"
+                  type="font-awesome"
+                  size={24}
+                  iconStyle={{ width: 24 }}
+                  color={color}
+                />
+              ),
+            }}
+          />
         </Drawer.Navigator>
       </View>
     </Provider>
@@ -236,6 +229,11 @@ const Main = () => {
 };
 
 const styles = StyleSheet.create({
+  stackIcon: {
+    marginLeft: 10,
+    color: "#fff",
+    fontSize: 24,
+  },
   drawerHeader: {
     backgroundColor: "#5637DD",
     height: 140,
@@ -245,7 +243,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   drawerHeaderText: {
-    color: "#fff",
+    color: "white",
     fontSize: 24,
     fontWeight: "bold",
   },
@@ -253,11 +251,6 @@ const styles = StyleSheet.create({
     margin: 10,
     height: 60,
     width: 60,
-  },
-  stackIcon: {
-    marginLeft: 10,
-    color: "#fff",
-    fontSize: 24,
   },
 });
 
