@@ -16,12 +16,15 @@ export const fetchComments = createAsyncThunk(
 export const postComment = createAsyncThunk(
   "comments/postComment",
   async (payload, { dispatch, getState }) => {
-    setTimeout(() => {
-      const { comments } = getState();
-      payload.date = new Date().toISOString();
-      payload.id = comments.commentsArray.length;
-      dispatch(addComment(payload));
-    }, 2000);
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        const { comments } = getState();
+        payload.date = new Date().toISOString();
+        payload.id = comments.commentsArray.length;
+        dispatch(addComment(payload));
+        resolve(payload);
+      }, 2000);
+    });
   }
 );
 
