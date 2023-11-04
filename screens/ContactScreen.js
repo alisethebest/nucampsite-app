@@ -1,25 +1,22 @@
 import React from "react";
 import { ScrollView } from "react-native";
-import { Card, Text } from "react-native-elements"; // Import Card and Text from RNE
+import { Card, Text } from "react-native-elements";
+import * as Animatable from "react-native-animatable"; // Import Animatable
 
 const ContactScreen = () => {
   return (
     <ScrollView>
-      <Card wrapperStyle={{ margin: 20 }}>
-        {" "}
-        {/* Add wrapperStyle to Card */}
-        <Card.Title>Contact Information</Card.Title> {/* Set the title */}
-        <Card.Divider /> {/* Add a divider */}
-        <Text>1 Nucamp Way</Text> {/* Address line */}
-        <Text>Seattle, WA 98001</Text> {/* Address line */}
-        <Text>U.S.A.</Text> {/* Address line */}
-        <Text style={{ marginBottom: 10 }}>
-          {" "}
-          {/* Add marginBottom */}
-          Phone: 1-206-555-1234
-        </Text>
-        <Text>Email: campsites@nucamp.co</Text>
-      </Card>
+      <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
+        <Card wrapperStyle={{ margin: 20 }}>
+          <Card.Title>Contact Information</Card.Title>
+          <Card.Divider />
+          <Text>1 Nucamp Way</Text>
+          <Text>Seattle, WA 98001</Text>
+          <Text>U.S.A.</Text>
+          <Text style={{ marginBottom: 10 }}>Phone: 1-206-555-1234</Text>
+          <Text>Email: campsites@nucamp.co</Text>
+        </Card>
+      </Animatable.View>
     </ScrollView>
   );
 };

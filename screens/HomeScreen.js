@@ -1,6 +1,6 @@
-import React from "react";
-import { ScrollView } from "react-native";
-import { Card, Text } from "react-native-elements";
+import React, { useEffect, useRef } from "react"; // Add useEffect and useRef here
+import { View, Text, Animated, StyleSheet } from "react-native";
+import { Card } from "react-native-elements";
 import { useSelector } from "react-redux";
 import Loading from "../components/LoadingComponent";
 
@@ -41,8 +41,23 @@ const HomeScreen = () => {
   const promotions = useSelector((state) => state.promotions);
   const partners = useSelector((state) => state.partners);
 
+  // scaleValue constant using useRef
+  const scaleValue = useRef(new Animated.Value(0)).current;
+
+  // scaleAnimation constant
+  const scaleAnimation = Animated.timing(scaleValue, {
+    toValue: 1,
+    duration: 1500,
+    useNativeDriver: true,
+  });
+
+  // useEffect hook to start the animation
+  useEffect(() => {
+    scaleAnimation.start();
+  }, []);
+
   return (
-    <ScrollView>
+    <Animated.ScrollView style={{ transform: [{ scale: scaleValue }] }}>
       <FeaturedItem
         item={featCampsite}
         isLoading={campsites.isLoading}
@@ -58,7 +73,7 @@ const HomeScreen = () => {
         isLoading={partners.isLoading}
         errMess={partners.errMess}
       />
-    </ScrollView>
+    </Animated.ScrollView>
   );
 };
 

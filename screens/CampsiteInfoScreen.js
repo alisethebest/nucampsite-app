@@ -1,11 +1,12 @@
 import React, { useState } from "react";
-import { FlatList, StyleSheet, View, Modal, Button, Text } from "react-native"; // Make sure Text is imported
+import { FlatList, StyleSheet, View, Modal, Button, Text } from "react-native";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleFavorite } from "../features/favorites/favoritesSlice";
 import RenderCampsite from "../features/campsites/RenderCampsite";
 import { Rating, Input } from "react-native-elements";
 import { FontAwesome } from "@expo/vector-icons";
 import { postComment } from "../features/comments/commentsSlice";
+import * as Animatable from "react-native-animatable";
 
 const CampsiteInfoScreen = ({ route }) => {
   const { campsite } = route.params;
@@ -56,7 +57,7 @@ const CampsiteInfoScreen = ({ route }) => {
   };
 
   return (
-    <>
+    <Animatable.View animation="fadeInUp" duration={2000} delay={1000}>
       <FlatList
         data={comments.commentsArray.filter(
           (comment) => comment.campsiteId === campsite.id
@@ -64,14 +65,12 @@ const CampsiteInfoScreen = ({ route }) => {
         renderItem={renderCommentItem}
         keyExtractor={(item) => item.id.toString()}
         ListHeaderComponent={
-          <>
-            <RenderCampsite
-              campsite={campsite}
-              isFavorite={favorites.includes(campsite.id)}
-              markFavorite={() => dispatch(toggleFavorite(campsite.id))}
-              onShowModal={() => setShowModal(!showModal)}
-            />
-          </>
+          <RenderCampsite
+            campsite={campsite}
+            isFavorite={favorites.includes(campsite.id)}
+            markFavorite={() => dispatch(toggleFavorite(campsite.id))}
+            onShowModal={() => setShowModal(!showModal)}
+          />
         }
       />
       <Modal
@@ -107,8 +106,8 @@ const CampsiteInfoScreen = ({ route }) => {
             <Button onPress={handleSubmit} color="#5637DD" title="Submit" />
             <Button
               onPress={() => {
-                setShowModal(!showModal); // Toggle the visibility of the modal
-                resetForm(); // Reset the form fields when cancel is pressed
+                setShowModal(!showModal);
+                resetForm();
               }}
               color="#808080"
               title="Cancel"
@@ -116,7 +115,7 @@ const CampsiteInfoScreen = ({ route }) => {
           </View>
         </View>
       </Modal>
-    </>
+    </Animatable.View>
   );
 };
 
