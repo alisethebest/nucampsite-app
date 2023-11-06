@@ -5,12 +5,13 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  Alert, 
+  Alert,
 } from "react-native";
 import { SwipeRow } from "react-native-swipe-list-view";
 import { toggleFavorite } from "../features/favorites/favoritesSlice";
 import Loading from "../components/LoadingComponent";
 import { ListItem, Avatar } from "react-native-elements";
+import * as Animatable from "react-native-animatable";
 
 // Set up the FavoritesScreen function component with destructured navigation prop
 const FavoritesScreen = ({ navigation }) => {
@@ -72,13 +73,15 @@ const FavoritesScreen = ({ navigation }) => {
 
   // Return a FlatList of favorite campsites
   return (
-    <FlatList
-      data={campsitesArray.filter((campsite) =>
-        favorites.includes(campsite.id)
-      )}
-      renderItem={renderFavoriteItem}
-      keyExtractor={(item) => item.id.toString()}
-    />
+    <Animatable.View animation="fadeInRightBig" duration={2000}>
+      <FlatList
+        data={campsitesArray.filter((campsite) =>
+          favorites.includes(campsite.id)
+        )}
+        renderItem={renderFavoriteItem}
+        keyExtractor={(item) => item.id.toString()}
+      />
+    </Animatable.View>
   );
 };
 

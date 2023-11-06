@@ -56,6 +56,17 @@ const HomeScreen = () => {
     scaleAnimation.start();
   }, []);
 
+  // Assume you have a boolean field 'featured' to find the featured items
+  const featCampsite = campsites.campsitesArray.find(
+    (campsite) => campsite.featured
+  );
+  const featPromotion = promotions.promotionsArray.find(
+    (promotion) => promotion.featured
+  );
+  const featPartner = partners.partnersArray.find(
+    (partner) => partner.featured
+  );
+
   return (
     <Animated.ScrollView style={{ transform: [{ scale: scaleValue }] }}>
       <FeaturedItem
